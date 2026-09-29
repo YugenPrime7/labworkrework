@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Школа Алгола — ALGOL 60</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap');
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f5f2eb;
+            --rule: #2a2a2a;
+            --muted: #4a4a4a;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'PT Serif', 'Times New Roman', Georgia, serif;
+            background-color: var(--paper);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Верхняя линейка ─────────────────────────────── */
+        .top-rule {
+            border: none;
+            border-top: 3px double var(--rule);
+            margin: 0;
+        }
+
+        .bottom-rule {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 0;
+        }
+
+        /* ── Шапка ────────────────────────────────────────── */
+        header {
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .header-org {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-sub {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+
+        /* ── Hero ─────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 5rem 1.5rem 4rem;
+            border-bottom: 1px solid var(--rule);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/punchcard.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            filter: grayscale(100%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--paper);
+            background-color: var(--ink);
+            padding: 0.9rem 2.5rem;
+            border: 2px solid var(--ink);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--ink);
+        }
+
+        /* ── Общие секции ────────────────────────────────── */
+        section {
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .section-inner {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        /* ── О языке ─────────────────────────────────────── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 1.25rem;
+            text-align: justify;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .about-images figure {
+            margin: 0;
+        }
+
+        .about-images img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--rule);
+            filter: grayscale(100%);
+        }
+
+        .about-images figcaption {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 0.4rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Программа курса ─────────────────────────────── */
+        .course-list {
+            list-style: none;
+            counter-reset: module;
+        }
+
+        .course-item {
+            counter-increment: module;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 1.5rem;
+            padding: 1.75rem 0;
+            border-bottom: 1px solid var(--rule);
+            align-items: start;
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        .course-num {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--muted);
+            line-height: 1;
+            padding-top: 0.15rem;
+        }
+
+        .course-num::before {
+            content: counter(module, decimal-leading-zero);
+        }
+
+        .course-body h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .course-body p {
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .course-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-top: 3rem;
+        }
+
+        .course-images figure {
+            margin: 0;
+        }
+
+        .course-images img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--rule);
+            filter: grayscale(100%);
+        }
+
+        .course-images figcaption {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 0.4rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── Цитата / Девиз ──────────────────────────────── */
+        .motto {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .motto blockquote {
+            font-size: 1.4rem;
+            font-style: italic;
+            max-width: 640px;
+            margin: 0 auto 1rem;
+            line-height: 1.5;
+        }
+
+        .motto cite {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-style: normal;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── Подвал ───────────────────────────────────────── */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .footer-org {
+            font-family: 'PT Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-note {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* ── Адаптивность ─────────────────────────────────── */
+        @media (max-width: 700px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-images {
+                grid-template-columns: 1fr;
+            }
+
+            .course-item {
+                grid-template-columns: 36px 1fr;
+                gap: 1rem;
+            }
+
+            .course-num {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <hr class="top-rule">
+
+    <!-- Шапка -->
+    <header>
+        <div class="header-org">Академический вычислительный центр</div>
+        <h1 class="header-title">Школа Алгола</h1>
+        <p class="header-sub">Структурное мышление для ученых</p>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+            <div class="hero-eyebrow">Набор 1960–1961</div>
+            <h2 class="hero-title">ALGOL 60: Язык, научивший машины думать</h2>
+            <p class="hero-sub">Курс структурного программирования для нового поколения ученых</p>
+            <a href="#course" class="btn">Записаться на курс</a>
+        </div>
+    </section>
+
+    <!-- О языке -->
+    <section id="about">
+        <div class="section-inner">
+            <div class="section-label">Раздел I</div>
+            <h2 class="section-title">О языке</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>ALGOL 60 ввел понятия, без которых мы не представляем современный код: блоки <code>begin...end</code>, рекурсию и строгую типизацию. Это язык для тех, кто хочет, чтобы его алгоритмы были понятны.</p>
+                    <p>Созданный Международным комитетом IFIP на конференции в Париже в 1960 году, ALGOL стал первым языком с формальным описанием синтаксиса — нотацией Бэкуса–Наура. Он был написан не для коммерции, а для науки.</p>
+                    <p>Сегодня каждый программист, использующий фигурные скобки или объявляя тип переменной, стоит на плечах этого языка.</p>
+                </div>
+                <div class="about-images">
+                    <figure>
+                        <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/report.png" alt="Отчет ALGOL 60">
+                        <figcaption>Рис. 1 — Ревизованный отчет по ALGOL 60</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/algol_meeting.png" alt="Заседание комитета ALGOL">
+                        <figcaption>Рис. 2 — Заседание комитета, Париж, 1960</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/console.png" alt="Консоль мэйнфрейма">
+                        <figcaption>Рис. 3 — Рабочее место оператора</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Девиз -->
+    <div class="motto">
+        <blockquote>«Ваш код перестанет быть набором команд. Он станет математической публикацией.»</blockquote>
+        <cite>— Девиз Школы Алгола</cite>
+    </div>
+
+    <!-- Программа курса -->
+    <section id="course">
+        <div class="section-inner">
+            <div class="section-label">Раздел II</div>
+            <h2 class="section-title">Программа курса</h2>
+            <ol class="course-list">
+                <li class="course-item">
+                    <div class="course-num"></div>
+                    <div class="course-body">
+                        <h3>Введение в BNF-нотацию</h3>
+                        <p>Формальное описание синтаксиса. Язык как математический объект.</p>
+                    </div>
+                </li>
+                <li class="course-item">
+                    <div class="course-num"></div>
+                    <div class="course-body">
+                        <h3>Работа с массивами и процедурами</h3>
+                        <p>Структуры данных и блочная организация программ.</p>
+                    </div>
+                </li>
+                <li class="course-item">
+                    <div class="course-num"></div>
+                    <div class="course-body">
+                        <h3>Рекурсивные алгоритмы</h3>
+                        <p>Рекурсия как фундаментальный прием структурного программирования.</p>
+                    </div>
+                </li>
+                <li class="course-item">
+                    <div class="course-num"></div>
+                    <div class="course-body">
+                        <h3>Практика на симуляторе мэйнфрейма</h3>
+                        <p>Работа с перфокартами, пакетная обработка, вывод на печать.</p>
+                    </div>
+                </li>
+            </ol>
+            <div class="course-images">
+                <figure>
+                    <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/elliott_803.png" alt="ЭВМ Elliott 803">
+                    <figcaption>Рис. 4 — Elliott 803</figcaption>
+                </figure>
+                <figure>
+                    <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/scientist.png" alt="Ученый за работой">
+                    <figcaption>Рис. 5 — Исследователь</figcaption>
+                </figure>
+                <figure>
+                    <img src="file:///C:/Users/Роман/Documents/Проект по умолчанию/language-era-project/assets/images/ad_poster.png" alt="Афиша курсов">
+                    <figcaption>Рис. 6 — Афиша набора</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="footer-org">Академический вычислительный центр</div>
+        <p class="footer-note">Курс «Школа Алгола» · Набор 1960–1961</p>
+    </footer>
+
+    <hr class="bottom-rule">
+
+</body>
+</html>
